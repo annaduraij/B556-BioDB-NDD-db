@@ -1,0 +1,33 @@
+<!-- Author: Jay Annadurai-->
+<!-- Date: 25 Mar 2023-->
+<!-- Project: Pathology_db -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>NDD Pathology DB - {% block page_title %} Page {% endblock %}</title>
+    <!-- Link to CSS files and other head elements -->
+    {% block page_style %}
+    <style> /* Page-Specific Styles */ </style>
+    {% endblock %}
+
+</head>
+
+<body>
+
+    {% include 'components/navbar.html' %}
+
+    <main>
+        {% block page_content %}
+        <!-- Body Content of Child Classes  -->
+        {% endblock %}
+    </main>
+
+    {% include 'components/footer.html' %}
+
+    <!-- Links to JS files -->
+</body>
+
+</html>

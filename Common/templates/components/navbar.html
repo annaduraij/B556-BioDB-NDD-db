@@ -1,0 +1,25 @@
+<!-- Navbar Component -->
+<!-- Author: Jay Annadurai-->
+
+<style>
+    #navbar {
+        display: flex;
+        flex-grow: 1;
+        flex-flow: row wrap;
+        justify-content: space-around
+    }
+    #navbar > div {
+        width: calc(100% / {{ nav_pages|length }});
+        text-align: center;
+        margin: 0 auto
+    }
+</style>
+
+
+<nav>
+    <div id="navbar">
+        {% for page_name, page_url in nav_pages.items %}
+            <div class="nav-section"><a href="{% url page_url %}">{{ page_name }}</a></div>
+        {% endfor %}
+    </div>
+</nav>

@@ -1,0 +1,24 @@
+<!-- Footer Component -->
+<!-- Author: Jay Annadurai-->
+
+<style>
+    #footer {
+        display: flex;
+        flex-grow: 1;
+        flex-flow: row wrap;
+        justify-content: space-around
+    }
+    #footer > div {
+        width: calc(100% / {{ footer_info|length }});
+        text-align: center;
+        margin: 0 auto
+    }
+</style>
+
+<footer>
+    <div id="footer" >
+        {% for item_name,footer_item in footer_info.items %}
+            <div class="footer-section"> {{ footer_item }} </div>
+        {% endfor %}
+    </div>
+</footer>

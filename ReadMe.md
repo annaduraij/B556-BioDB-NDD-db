@@ -25,12 +25,16 @@ Before getting started, make sure you have the following installed:
    ```bash 
    cd B556-PathologyDB
    ```
+
+2. **Optional: Setup Python Virtual Environment**
+    - Install ```mysqlclient``` Python Package using PIP
    
-2. **Setup MySQL Database**:
+3. **Setup MySQL Database**:
     - Use MySQL Client of Choice (MariaDB with PhpMyAdmin or MySQL with MySQL Workbench)
     - Import ```pathology_db.sql```
     - Initialize a User Account
-3. **Configure SQL Connection Settings**:
+      
+4. **Configure SQL Connection Settings**:
    - Open Pathology_Project/settings.py file in the project directory.
    - Find the DATABASES setting and configure it with your MySQL database settings:
    ```python
@@ -45,22 +49,25 @@ Before getting started, make sure you have the following installed:
         }
     }
     ```
-4. **Run Model Migrations**
+   
+5. **Run Model Migrations**
    - Django analyzes existing database and generates models from the database schema
    - In a terminal set to the Project Directory (```cd B556-PathologyDB```)
    - Perform the ```migrate``` command on the management script
       ```bash
       python manage.py migrate
-      ``` 
-5. **Create a Superuser (Admin) to access Django Admin Interface**
+      ```
+      
+6. **Create a Superuser (Admin) to access Django Admin Interface**
    - Not immediately necessary!
    - In a terminal set to the Project Directory (```cd B556-PathologyDB```)
    - Perform the ```createsuperuser``` command on the management script
      ```bash
      python manage.py migrate
-     ``` 
+     ```
    - Follow prompts to establish the Super Admin
-6. **Access the Development Server**
+     
+7. **Access the Development Server**
    - Required to integrate all the templates and components
    - In a terminal set to the Project Directory (```cd B556-PathologyDB```)
    - Perform the ```runserver``` command on the management script

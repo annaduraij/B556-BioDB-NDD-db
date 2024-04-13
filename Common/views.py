@@ -9,6 +9,7 @@ from django.shortcuts import render
 from django.urls import get_resolver
 from django.views import View
 
+
 # Establishes Base Super View Class
 class BaseView(TemplateView):
     def get_context_data(self, **kwargs):
@@ -19,7 +20,7 @@ class BaseView(TemplateView):
         # Must be in form of Page_Name:Page:Path
         context['nav_pages'] = {
             # "Home": "App_Static_Content:home",
-            # "Search": "App_Query:search_input",
+            "Search": "App_Query:search_input",
             "About Us": "App_Static_Content:about_us",
             "NDD DB": "App_Static_Content:about_project",
             # "Login": "App_Authentication:login"

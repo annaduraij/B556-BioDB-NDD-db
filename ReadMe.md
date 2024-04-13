@@ -12,10 +12,11 @@ This guide will help you set up the project on your local development environmen
 
 ## Prerequisites
 Before getting started, make sure you have the following installed:
-- Python 3.12 (Core Python)
+- Python 3.12 (Core Python) 
 - pip (Python package manager)
 - MySQL server and client (MariaDB with phpMyAdmin from XAMPP used)
   - Uses ```mysqlclient``` package to connect with MySQL
+  - ***MySQLClient does NOT support versions of Python later than 3.12***
 
 ## Setup Instructions
 1. **Clone the Repository:**
@@ -32,7 +33,7 @@ Before getting started, make sure you have the following installed:
 3. **Setup MySQL Database**:
     - Use MySQL Client of Choice (MariaDB with PhpMyAdmin or MySQL with MySQL Workbench)
     - Import ```pathology_db.sql```
-    - Initialize a User Account
+    - Initialize a User Account to access the Database
       
 4. **Configure SQL Connection Settings**:
    - Open Pathology_Project/settings.py file in the project directory.
@@ -41,6 +42,10 @@ Before getting started, make sure you have the following installed:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
+            'OPTIONS': {
+                # Removes the warning: (mysql.W002) MariaDB Strict Mode is not set for database connection 'default'
+                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+            },
             'NAME': 'pathology_db', # Name of the DB
             'USER': 'client_username', # Name of the Account to Access DB
             'PASSWORD': 'client_password', # Password of the Account to Access DB
@@ -50,7 +55,7 @@ Before getting started, make sure you have the following installed:
     }
     ```
    
-5. **Run Model Migrations**
+5. **Run Migrations**
    - Django analyzes existing database and generates models from the database schema
    - In a terminal set to the Project Directory (```cd B556-PathologyDB```)
    - Perform the ```migrate``` command on the management script
@@ -63,7 +68,7 @@ Before getting started, make sure you have the following installed:
    - In a terminal set to the Project Directory (```cd B556-PathologyDB```)
    - Perform the ```createsuperuser``` command on the management script
      ```bash
-     python manage.py migrate
+     python manage.py createsuperuser
      ```
    - Follow prompts to establish the Super Admin
      

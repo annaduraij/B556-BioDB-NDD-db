@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block page_title %} Search NDD Pathology DB {% endblock %}
+
+{% block page_style %}
+
+    <style>
+
+    </style>
+
+{% endblock %}
+
+{% block page_content %}
+
+    <h1> Search for Neurodegenerative Disease | Genetic Factor | Environmental Factor </h1>
+    <!-- Form is displayed here with GET and rendered in POST -->
+    <form method="get">
+        {{ form.as_p }}  <!-- Renders form fields as paragraph elements -->
+        <button type="submit">Go!</button>
+    </form>
+
+    <p> Query: {{ query }} </p>
+    <p> Search Type: {{ search_type }}</p>
+    <p> Results: {{ results }}</p>
+
+
+    {% if results %}
+        <!-- Display Results if Results are Found -->
+        <h2>Results:</h2>
+        <p>Search type: {{ search_type }}</p>
+        <p>Results count: {{ results|length }}</p>
+
+        <!-- Distinguish display based on search type -->
+        {% if search_type == 'disease' %}
+            <!-- Disease Search Results -->
+            <ul>
+            {% for result in results %}
+                <li>
+                    <!-- TODO: Create links to detail views for each result -->
+                     <a href="{% url 'App_Query:record_details' result.id %}">{{ result.name }}</a>
+                    {{ result.name }}
+                </li>
+            {% endfor %}
+            </ul>
+
+        {% elif search_type == 'grf' %}
+            <!-- Genetic Risk Factor Search Results-->
+            <ul>
+                {% for result in results %}
+                    <li>
+                        <!-- TODO: Create links to detail views for each result -->
+                         <a href="{% url 'App_Query:record_details' result.id %}">{{ result.snp }}</a>
+                        {{ result.snp }}
+                    </li>
+                {% endfor %}
+            </ul>
+
+        {% elif search_type == 'erf' %}
+            <!-- Environmental Risk Factor Search Results-->
+            <ul>
+                {% for result in results %}
+                    <li>
+                        <!-- TODO: Create links to detail views for each result -->
+                         <a href="{% url 'App_Query:record_details' result.id %}">{{ result.name }}</a>
+                        {{ result.name }}
+                    </li>
+                {% endfor %}
+            </ul>
+
+        {% else %}
+
+            <p> Error: Unknown Search Type  </p>
+
+        {% endif %}
+
+    {% else %}
+        <!-- Display an Error Message if no results are found -->
+        <p> No results found. </p>
+
+    {% endif %}
+
+
+{% endblock %}

@@ -1,10 +1,108 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
 
-</body>
-</html>
+{% block page_title %} Search NDD Pathology DB {% endblock %}
+
+{% block page_style %}
+
+    <style>
+
+    </style>
+
+{% endblock %}
+
+{% block page_content %}
+
+    <h1> Search for Neurodegenerative Disease | Genetic Factor | Environmental Factor </h1>
+    <!-- Form via GET -->
+    <form method="get" action="{% url 'App_Query:search_input' %}">
+        Search: <input type="text" name="query" value="{{ query }}">
+        <fieldset>
+            <legend>Type:</legend>
+            <label><input type="radio" name="type" value="disease" {% if search_type == 'disease' %}checked{% endif %}> Disease</label>
+            <label><input type="radio" name="type" value="genome" {% if search_type == 'grf' %}checked{% endif %}> Genetic Factor</label>
+            <label><input type="radio" name="type" value="environment" {% if search_type == 'erf' %}checked{% endif %}> Environmental Factor</label>
+        </fieldset>
+        <button type="submit">Go!</button>
+    </form>
+
+    <p> Query: {{ query }} </p>
+    <p> Search Type: {{ search_type }}</p>
+
+
+    {% if results %}
+        <!-- Display Results if Results are Found -->
+        <h2>Results:</h2>
+        <p>Search type: {{ search_type }}</p>
+        <p>Results count: {{ results|length }}</p>
+
+        <!-- Distinguish display based on search type -->
+        {% if search_type == 'disease' %}
+            <!-- Disease Search Results -->
+            <ul>
+            {% for disease in results %}
+                <li>
+                    <!-- TODO: Create links to detail views for each result -->
+{#                     <a href="{% url 'App_Query:record_details' result.id %}">{{ result.name }}</a>#}
+                    {{ disease.name }} :
+                        <ul>
+                            {% for grf in disease.grfs.all %}
+                                <li> GRF: {{ grf }} - {{ grf.trait}} - {{ DiseaseGRF.objects.get(grf_id=grf.id) }} </li>
+                            {% endfor %}
+                        </ul>
+                        <ul>
+                            {% for erf in disease.erfs.all %}
+                                <li> ERF: {{ erf }} </li>
+                            {% endfor %}
+                        </ul>
+                </li>
+            {% endfor %}
+            </ul>
+
+        {% elif search_type == 'genome' %}
+            <!-- Genetic Risk Factor Search Results-->
+            <ul>
+                {% for grf in results %}
+                    <li>
+                        <!-- TODO: Create links to detail views for each result -->
+{#                         <a href="{% url 'App_Query:record_details' result.id %}">{{ result.snp }}</a>#}
+                        {{ grf.snp }} :
+                        <ul>
+                            {% for disease in grf.diseases.all %}
+                                <li> {{ disease.name }} </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+
+        {% elif search_type == 'environment' %}
+            <!-- Environmental Risk Factor Search Results-->
+            <ul>
+                {% for erf in results %}
+                    <li>
+                        <!-- TODO: Create links to detail views for each result -->
+{#                         <a href="{% url 'App_Query:record_details' result.id %}">{{ result.name }}</a>#}
+                        {{ erf.name }} :
+                        <ul>
+                            {% for disease in erf.diseases.all %}
+                                <li> {{ disease.name }} </li>
+                            {% endfor %}
+                        </ul>
+                    </li>
+                {% endfor %}
+            </ul>
+
+        {% else %}
+
+            <p> Error: Unknown Search Type  </p>
+
+        {% endif %}
+
+    {% else %}
+        <!-- Display an Error Message if no results are found -->
+        <p> No results found. </p>
+
+    {% endif %}
+
+
+{% endblock %}

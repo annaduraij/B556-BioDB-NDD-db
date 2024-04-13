@@ -46,8 +46,8 @@ INSTALLED_APPS = [
 
     # Custom apps
     'Common',  # Contains shared resources across all pages
-    # 'App_Query',  # Handles the search functionality and displaying results
-    # 'App_Model',  # Defines the data models for the application
+    'App_Query',  # Handles the search functionality and displaying results
+    'App_Model',  # Defines the data models for the application
     # 'App_Authentication',  # Manages user authentication and profiles
     'App_Static_Content',  # Serves static pages like "About Us" and information pages
 
@@ -91,6 +91,10 @@ WSGI_APPLICATION = 'Pathology_Project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
+        # Removes the warning: (mysql.W002) MariaDB Strict Mode is not set for database connection 'default'
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+        },
         'NAME': 'pathology_db',  # Database Name
         'USER': 'jannadurai',  # Database Access User
         'PASSWORD': 'jannadurai',  # Database Access Password

@@ -1,0 +1,82 @@
+# App_Model/models.py
+
+from django.db import models
+
+# Define the SQL Tables here!
+
+
+# Defines the 'Disease' model corresponding to the 'Disease' table in the database
+class Disease(models.Model):
+    # Automatically increments primary key field
+    id = models.AutoField(primary_key=True, db_column='Disease_ID')
+    # CharField for storing disease names, must be unique
+    name = models.CharField(max_length=50, unique=True, db_column='Disease_name')
+
+    # Sets the name of each tuple of Disease for debugging
+    def __str__(self):
+        return self.name
+
+
+# Defines the 'EnvironmentalFactor' model corresponding to the 'EnvironmentalFactor' table
+class EnvironmentalFactor(models.Model):
+    # Automatically increments primary key field
+    id = models.AutoField(primary_key=True, db_column='Enviromental_ID')
+    # CharField for storing environmental factor names, must be unique
+    name = models.CharField(max_length=50, unique=True, db_column='Enviromental_name')
+
+    # Sets the name of each tuple of Environmental Risk Factor for debugging
+    def __str__(self):
+        return self.name
+
+
+# Defines the 'GeneticFactor' model corresponding to the 'GeneticFactor' table
+class GeneticFactor(models.Model):
+    # Automatically increments primary key field
+    id = models.AutoField(primary_key=True, db_column='Genetic_ID')
+    # CharField for unique SNP names
+    SNP_name = models.CharField(max_length=50, unique=True)
+    # CharField for genes associated with the SNP
+    Mapped_gene = models.CharField(max_length=50)
+    # Optional CharField for traits reported to be associated with the SNP
+    Reported_Trait = models.CharField(max_length=100, null=True, blank=True)
+    # FloatField for the p-value, a statistical measure
+    P_Value = models.FloatField()
+
+    # Sets the name of each tuple of Genetic Risk Factor for debugging
+    def __str__(self):
+        # Genetic Factors are identified by the SNP
+        return self.SNP_name
+
+
+# Intermediary model for the many-to-many relationship between 'GeneticFactor' and 'Disease'
+class GeneticRisk(models.Model):
+    # ForeignKey linking to 'GeneticFactor', cascade delete enabled
+    genetic = models.ForeignKey(GeneticFactor, on_delete=models.CASCADE, db_column='Genetic_ID')
+    # ForeignKey linking to 'Disease', cascade delete enabled
+    disease = models.ForeignKey(Disease, on_delete=models.CASCADE, db_column='Disease_ID')
+    # CharField for storing accession sources
+    accession_source = models.CharField(max_length=100)
+
+    class Meta:
+        # Enforces uniqueness of the combination of genetic and disease foreign keys
+        # Effectively establishes a composite key with 'unique' constraints on these in the SQL side and also on Django
+        unique_together = [['genetic', 'disease']]
+        # Specifies custom database table name
+        db_table = 'Genetic_Risk'
+
+
+# Intermediary model for the many-to-many relationship between 'EnvironmentalFactor' and 'Disease'
+class EnvironmentalRisk(models.Model):
+    # ForeignKey linking to 'EnvironmentalFactor', cascade delete enabled
+    environmental = models.ForeignKey(EnvironmentalFactor, on_delete=models.CASCADE, db_column='Enviromental_ID')
+    # ForeignKey linking to 'Disease', cascade delete enabled
+    disease = models.ForeignKey(Disease, on_delete=models.CASCADE, db_column='Disease_ID')
+    # CharField for storing DOI sources
+    doi_source = models.CharField(max_length=100)
+
+    class Meta:
+        # Enforces uniqueness of the combination of environmental and disease foreign keys
+        # Effectively establishes a composite key with 'unique' constraints on these in the SQL side and also on Django
+        unique_together = [['environmental', 'disease']]
+        # Specifies custom database table name
+        db_table = 'Enviromental_Risk'

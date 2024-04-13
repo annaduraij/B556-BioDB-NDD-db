@@ -43,7 +43,7 @@ urlpatterns = [
     path('', AboutProjectView.as_view(), name='Home'),
 
     # URLs for App_Query to handle Database Transactions
-    # path('db/', include('App_Query.urls')),
+    path('db/', include('App_Query.urls')),
 
     # URLs for App_Authentication to handle Authentication Transactions
     # path('auth/', include('App_Authentication.urls')),

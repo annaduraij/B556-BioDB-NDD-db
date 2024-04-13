@@ -9,12 +9,12 @@ app_name = 'App_Query'
 
 from .views import (
     SearchInputView,
-    SearchResultsView,
-    RecordDetailsView
+    #SearchResultsView,
+    #RecordDetailsView
 )
 
 urlpatterns = [
     path('', SearchInputView.as_view(), name='search_input'),
-    path('results/', SearchResultsView.as_view(), name='search_results'),
-    path('record/<int:id>/', RecordDetailsView.as_view(), name='record_details'),
+    #path('results/', SearchResultsView.as_view(), name='search_results'),
+    #path('record/<int:id>/', RecordDetailsView.as_view(), name='record_details'),
 ]

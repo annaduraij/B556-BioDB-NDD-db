@@ -28,7 +28,7 @@ from django.urls import path
 from django.urls import include
 
 # Temporarily Import the AboutProjectView and AboutUsView to set as the home page
-from App_Static_Content.views import AboutProjectView
+from App_Query.views import SearchInputView
 from App_Static_Content.views import AboutUsView
 from Common.views import ListPathsView
 
@@ -40,7 +40,7 @@ urlpatterns = [
     path('debug/paths/', ListPathsView.as_view(), name='list_paths'),
 
     # Home Path temporarily routes to the AboutProjectView
-    path('', AboutProjectView.as_view(), name='Home'),
+    path('', SearchInputView.as_view(), name='Home'),
 
     # URLs for App_Query to handle Database Transactions
     path('db/', include('App_Query.urls')),

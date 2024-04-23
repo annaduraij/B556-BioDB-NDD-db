@@ -30,7 +30,7 @@ class BaseView(TemplateView):
         # Note: the key is discarded but exists for readability
         context['footer_info'] = {
             "Copyright": "ⓒ NDD Pathology DB 2024",
-            "Authors": "Stanfield T | Annadurai J | Hamilton N | Cate E",
+            "Authors": "Stansfield T | Annadurai J | Hamilton N | Cates E",
             "Version": "1.0.0"
         }
 

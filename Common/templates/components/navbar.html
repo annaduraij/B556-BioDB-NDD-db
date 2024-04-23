@@ -1,25 +1,83 @@
 <!-- Navbar Component -->
 <!-- Author: Jay Annadurai-->
-
+{% load static %}
 <style>
-    #navbar {
+    #header {
         display: flex;
-        flex-grow: 1;
-        flex-flow: row wrap;
-        justify-content: space-around
+        flex-direction: column;
+        align-items: center;
+        background-color: var(--c--secondary);
+        padding: 0.5em 0;
     }
-    #navbar > div {
-        width: calc(100% / {{ nav_pages|length }});
+
+    #site-title {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+    }
+
+    #site-title > div {
+        width: min-content;
+        color: var(--c--emphasis);
+    }
+
+    #logo-container {
+        padding-right: 1em;  /* Adds some space between the logo and the title */
+    }
+
+    #logo-container img {
+        height: 1.7em;  /* Adjust size as needed */
+        display: block;
+    }
+
+    #navbar {
+        width: 100%;  /* Makes sure the navbar spans the full width */
+        display: flex;
+        justify-content: center;
+    }
+
+    #navbar .nav-section {
+        padding: 0.5em;  /* Spacing around each nav item */
         text-align: center;
-        margin: 0 auto
     }
+
+    #navbar .nav-section a:hover {
+        transition: color 100ms, font-weight 100ms;
+    }
+
+    #navbar .nav-section a:hover {
+        font-weight: bold;
+        color: var(--c--emphasis);
+    }
+
 </style>
 
 
-<nav>
+{#<nav>#}
+{#    <div id="navbar">#}
+{#        {% for page_name, page_url in nav_pages.items %}#}
+{#            <div class="nav-section"><a href="{% url page_url %}">{{ page_name }}</a></div>#}
+{#        {% endfor %}#}
+{#    </div>#}
+{#</nav>#}
+
+<nav id="header">
+
+    <div id="site-title">
+        <div id="logo-container">
+            <!-- Assuming there's an image for the logo -->
+            <a href="{% url 'App_Static_Content:about_us' %}">
+                <img src="{% static 'images/logo.png' %}" alt="Logo">
+            </a>
+        </div>
+        <div> Neurodegenerative&nbspDisorder&nbspPathology&nbspDB </div>
+    </div>
     <div id="navbar">
         {% for page_name, page_url in nav_pages.items %}
-            <div class="nav-section"><a href="{% url page_url %}">{{ page_name }}</a></div>
+            <div class="nav-section">
+                <a href="{% url page_url %}">{{ page_name }}</a>
+            </div>
         {% endfor %}
     </div>
 </nav>

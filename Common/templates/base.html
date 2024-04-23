@@ -2,6 +2,9 @@
 <!-- Date: 25 Mar 2023-->
 <!-- Project: Pathology_db -->
 
+{# Allows for Static Resources to be Loaded #}
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -9,6 +12,23 @@
     <meta charset="UTF-8">
     <title>NDD Pathology DB - {% block page_title %} Page {% endblock %}</title>
     <!-- Link to CSS files and other head elements -->
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/ico" href="{% static 'favicon.png' %}"/>
+
+    <!-- CSS Reset -->
+    <link rel="stylesheet" href="{% static 'css/normalize.css' %}">
+
+    <!-- CSS Variables -->
+    <link rel="stylesheet" href="{% static 'css/vars.css' %}">
+
+    <!-- Global Style Sheet-->
+    <link rel="stylesheet" href="{% static 'css/global.css' %}">
+
+    <!-- Developer CSS to See Div Outlines -->
+    <link rel="stylesheet" href="{% static 'css/outline.css' %}">
+
+
+
     {% block page_style %}
     <style> /* Page-Specific Styles */ </style>
     {% endblock %}

@@ -26,6 +26,8 @@ from .forms import SearchForm
 
 # Import Data Models
 from App_Model.models import Disease, GeneticRiskFactor, EnvironmentalRiskFactor
+# Allow for Query Objects that let you chain keyword arguments
+from django.db.models import Q
 
 
 class SearchInputView(BaseView):
@@ -51,7 +53,9 @@ class SearchInputView(BaseView):
             # Fetch diseases that match the query and prefetch related genetic and environmental factors
             results = (
                 Disease.objects
-                .filter(name__icontains=query)
+                .filter(
+                    Q(name__icontains=query) | Q(abbreviation__icontains=query)
+                )
                 # # Fetch the related genetic and environmental risk factors
                 # .prefetch_related('grf', 'erf')
             )
@@ -60,7 +64,9 @@ class SearchInputView(BaseView):
             # Fetch genetic factors that match the query and also prefetch related diseases
             results = (
                 GeneticRiskFactor.objects
-                .filter(snp__icontains=query)
+                .filter(
+                    Q(snp__icontains=query) | Q(gene__icontains=query) | Q(trait__icontains=query)
+                )
                 # Fetch related diseases and environmental risk factors related to those diseases
                 .prefetch_related('diseases')
             )
@@ -69,7 +75,9 @@ class SearchInputView(BaseView):
             # Fetch environmental factors that match the query and also prefetch related diseases
             results = (
                 EnvironmentalRiskFactor.objects
-                .filter(name__icontains=query)
+                .filter(
+                    Q(name__icontains=query)
+                )
                 # Fetch related diseases and genetic risk factors related to those diseases
                 .prefetch_related('diseases')
             )

@@ -1,108 +1,197 @@
 {% extends 'base.html' %}
 
-{% block page_title %} Search NDD Pathology DB {% endblock %}
+{% block page_title %} Search {% endblock %}
 
 {% block page_style %}
-
     <style>
-
+        body {
+            background-color: #333; /* Dark grey background */
+            color: #fff; /* White text */
+        }
+        .container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 20px;
+            background-color: rgba(20, 20, 20, 0.8); /* Translucent dark grey */
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: var(--c--emphasis);
+            font-size: 24px;
+            text-align: center;
+        }
+        form {
+            margin-top: 20px;
+        }
+        input[type="text"] {
+            width: calc(100% - 22px); /* Full-width minus padding */
+            padding: 10px;
+            margin: 0.5em 0px;
+            border: none;
+            border-radius: 5px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+        label {
+            font-size: 1.2em;
+        }
+        fieldset {
+            border: 0;
+            padding: 0.8em;
+        }
+        label {
+            margin-right: 20px;
+            color: #fff;
+        }
+        button {
+            display: block;
+            width: 100%;
+            font-weight: bold;
+            padding: 10px;
+            margin: 0.5em auto;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.3em;
+            background-color: #4CAF50; /* Green for visibility */
+            color: #fff;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            padding: 10px;
+            background-color: rgba(255, 255, 255, 0.05);
+            margin-top: 5px;
+            border-radius: 5px;
+        }
+        li.disease,
+        li.erf,
+        li.grf {
+            width: fit-content;
+        }
+        li.disease {
+            background-color: #5b091a;
+        }
+        li.erf {
+            background-color: #0a1c52;
+        }
+        li.grf {
+            background-color: #004422;
+        }
+        span.result{
+            color: var(--c--emphasis);
+        }
+        span.b{
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+        fieldset {
+            margin: 0;
+            display: flex;
+            flex-flow: row wrap;
+            justify-content: center;
+        }
     </style>
-
 {% endblock %}
 
 {% block page_content %}
+    <div class="container">
+        <h1>Search Neurodegenerative Disorder Factors</h1>
+        <!-- Form via GET -->
+        <form method="get" action="{% url 'App_Query:search_input' %}">
+            <fieldset>
+                <label><input type="radio" name="type" value="disease" {% if not results %}checked{% endif %} {% if search_type == 'disease' %}checked{% endif %}> Neurodegenerative Disease</label>
+                <label><input type="radio" name="type" value="genome" {% if search_type == 'genome' %}checked{% endif %}> Genetic Factor</label>
+                <label><input type="radio" name="type" value="environment" {% if search_type == 'environment' %}checked{% endif %}> Environmental Factor</label>
+            </fieldset>
+            <input type="text" placeholder="Search for Disease, Genetic Factor, or Environmental Factor..." name="query" {% if query %}value="{{ query }}" {% endif %}>
+            <button type="submit">Go!</button>
+        </form>
 
-    <h1> Search for Neurodegenerative Disease | Genetic Factor | Environmental Factor </h1>
-    <!-- Form via GET -->
-    <form method="get" action="{% url 'App_Query:search_input' %}">
-        Search: <input type="text" name="query" value="{{ query }}">
-        <fieldset>
-            <legend>Type:</legend>
-            <label><input type="radio" name="type" value="disease" {% if search_type == 'disease' %}checked{% endif %}> Disease</label>
-            <label><input type="radio" name="type" value="genome" {% if search_type == 'grf' %}checked{% endif %}> Genetic Factor</label>
-            <label><input type="radio" name="type" value="environment" {% if search_type == 'erf' %}checked{% endif %}> Environmental Factor</label>
-        </fieldset>
-        <button type="submit">Go!</button>
-    </form>
+{#        <p>Query: {{ query }}</p>#}
+{#        <p>Search Type: {{ search_type }}</p>#}
 
-    <p> Query: {{ query }} </p>
-    <p> Search Type: {{ search_type }}</p>
+        {% if results %}
+            <!-- Display Results if Results are Found -->
+            <br>
 
+            <h2>Results:</h2>
+{#            <p>Search type: {{ search_type }}</p>#}
+{#            <p>Results count: {{ results|length }}</p>#}
 
-    {% if results %}
-        <!-- Display Results if Results are Found -->
-        <h2>Results:</h2>
-        <p>Search type: {{ search_type }}</p>
-        <p>Results count: {{ results|length }}</p>
+            <!-- Distinguish display based on search type -->
+            {% if search_type == 'disease' %}
+                <!-- Disease Search Results -->
+                <ul>
+                    {% for disease in results %}
+                        <li>
+                            <!-- TODO: Create links to detail views for each result -->
+                            {#                     <a href="{% url 'App_Query:record_details' result.id %}">{{ result.name }}</a>#}
+                            <span class="result b"> {{ disease.name }} ({{ disease.abbreviation }})</span>:
+                            <ul>
+                                {% for grf in disease.grfs.all %}
+                                    <li class="grf"> Genetic: <span class="result">{{ grf.gene }}</span> ( <i>{{ grf.snp }}</i> ) - {{ grf.trait}}  </li>
+                                    {#                                {{ DiseaseGRF.objects.get(grf_id=grf.id) }}#}
+                                {% endfor %}
+                            </ul>
+                            <ul>
+                                {% for erf in disease.erfs.all %}
+                                    <li class="erf"> Environmental: <span class="result">{{ erf }}<span class="result"> </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% endfor %}
+                </ul>
 
-        <!-- Distinguish display based on search type -->
-        {% if search_type == 'disease' %}
-            <!-- Disease Search Results -->
-            <ul>
-            {% for disease in results %}
-                <li>
-                    <!-- TODO: Create links to detail views for each result -->
-{#                     <a href="{% url 'App_Query:record_details' result.id %}">{{ result.name }}</a>#}
-                    {{ disease.name }} :
-                        <ul>
-                            {% for grf in disease.grfs.all %}
-                                <li> GRF: {{ grf }} - {{ grf.trait}} - {{ DiseaseGRF.objects.get(grf_id=grf.id) }} </li>
-                            {% endfor %}
-                        </ul>
-                        <ul>
-                            {% for erf in disease.erfs.all %}
-                                <li> ERF: {{ erf }} </li>
-                            {% endfor %}
-                        </ul>
-                </li>
-            {% endfor %}
-            </ul>
+            {% elif search_type == 'genome' %}
+                <!-- Genetic Risk Factor Search Results-->
+                <ul>
+                    {% for grf in results %}
+                        <li>
+                            <!-- TODO: Create links to detail views for each result -->
+                            {#                         <a href="{% url 'App_Query:record_details' result.id %}">{{ result.snp }}</a>#}
+                            <span class="result b"> {{ grf.gene }} </span> ( <i>{{ grf.snp }}</i> )
+                            <ul>
+                                <li class="grf"> {{ grf.trait }} </li>
+                                {% for disease in grf.diseases.all %}
+                                    <li class="disease"> <span class="result"> {{ disease.abbreviation }} </span> - {{ disease.name }} </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% endfor %}
+                </ul>
 
-        {% elif search_type == 'genome' %}
-            <!-- Genetic Risk Factor Search Results-->
-            <ul>
-                {% for grf in results %}
-                    <li>
-                        <!-- TODO: Create links to detail views for each result -->
-{#                         <a href="{% url 'App_Query:record_details' result.id %}">{{ result.snp }}</a>#}
-                        {{ grf.snp }} :
-                        <ul>
-                            {% for disease in grf.diseases.all %}
-                                <li> {{ disease.name }} </li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-                {% endfor %}
-            </ul>
+            {% elif search_type == 'environment' %}
+                <!-- Environmental Risk Factor Search Results-->
+                <ul>
+                    {% for erf in results %}
+                        <li>
+                            <!-- TODO: Create links to detail views for each result -->
+                            {#                         <a href="{% url 'App_Query:record_details' result.id %}">{{ result.name }}</a>#}
+                            <span class="result b">  {{ erf.name }}  </span>
+                            <ul>
+                                {% for disease in erf.diseases.all %}
+                                    <li class="disease"> <span class="result"> {{ disease.abbreviation }} </span> - {{ disease.name }} </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    {% endfor %}
+                </ul>
 
-        {% elif search_type == 'environment' %}
-            <!-- Environmental Risk Factor Search Results-->
-            <ul>
-                {% for erf in results %}
-                    <li>
-                        <!-- TODO: Create links to detail views for each result -->
-{#                         <a href="{% url 'App_Query:record_details' result.id %}">{{ result.name }}</a>#}
-                        {{ erf.name }} :
-                        <ul>
-                            {% for disease in erf.diseases.all %}
-                                <li> {{ disease.name }} </li>
-                            {% endfor %}
-                        </ul>
-                    </li>
-                {% endfor %}
-            </ul>
+            {% else %}
+
+                <p> Error: Unknown Search Type  </p>
+
+            {% endif %}
 
         {% else %}
 
-            <p> Error: Unknown Search Type  </p>
-
         {% endif %}
-
-    {% else %}
-        <!-- Display an Error Message if no results are found -->
-        <p> No results found. </p>
-
-    {% endif %}
-
-
+    </div>
 {% endblock %}

@@ -1,38 +1,96 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block page_title %}About Us{% endblock %}
 
 {% block page_style %}
-
     <style>
+        .container {
+            display: grid;
+            grid-template-columns: auto 1fr; /* Two columns */
+            grid-template-rows: repeat(6, auto); /* Six rows, auto height */
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
 
+        .section {
+            background-color: rgba(20, 20, 20, 0.8); /* Translucent black */
+            padding: 1em;
+            border-radius: 10px;
+            color: var(--c--text);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--small-font-size);
+        }
+
+        .section.member {
+            font-size: 1.2em;
+            color: var(--c--emphasis);
+        }
+
+        .title {
+            grid-row: span 2; /* Span two rows */
+            font-size: 1.5em;
+            color: var(--c--emphasis);
+            font-weight: bold;
+        }
+
+        .content {
+            grid-row: 3 / 7; /* Span four rows starting from the third */
+            grid-column: 2; /* Occupies the second column */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+
+        img#IUPUI {
+            margin-top: 2em;
+            margin-bottom: 0em;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 400px;
+            height: auto;
+        }
+
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        #description {
+            font-size: 1.25em;
+            line-height: 1.3;
+            text-align: left;
+            margin-bottom: auto;
+        }
     </style>
-
 {% endblock %}
 
 {% block page_content %}
+    <div class="center">
+        <img id="IUPUI" src="{% static 'images/IUPUI.svg' %}" alt="About Us Art">
+    </div>
 
-<!-- Main Content for the About Us Page -->
-<center> <img src="about_us_art.png" width="400" height= "200"> </center>
-<center> <h1>About Us</h1> </center>
-
-<section class="about-us">
-    <h2>The Team</h2>
-    <ul style="list-style-type:none;">
-        <li>Treyden Stansfield</li>
-        <li>Jay Annadurai</li>
-        <li>Noah Hamilton</li>
-        <li>Ellie Cates</li>
-    </ul>
-</section>
-
-<section>
-    <h2>What is our goal?</h2>
-    <p>We wish to provide an accessible and user-friendly database that comprehensively connects multiclass risk factors for neurodegenerative disorders with current information.</p>
-</section>
-
-<section>
-    <a href="about_project.html">Learn more about our project</a>
-</section>
-
+    <div class="container">
+        <div class="section title">The Team</div>
+        <div class="section title">What is our goal?</div>
+        <div class="section member">Treyden Stansfield</div>
+        <div class="section content" rowspan="4">
+            <p id="description">
+                The Neurodegenerative Disorder Pathology Database (NDD DB) is conceived as a crucial resource aimed at enhancing our comprehension and management of neurodegenerative disorders. With the burgeoning global elderly population, the incidence of neurodegenerative diseases has seen a significant rise, necessitating advanced research and better data accessibility. The NDD DB addresses this need by integrating a vast array of genetic and environmental risk factors into a user-friendly and accessible platform.
+                <br><br>
+                Our primary goal is to democratize access to technical scientific information, thereby making it possible for researchers, clinicians, and even laypersons to understand and interact with the information effectively. By providing a centralized repository of up-to-date and comprehensive data, the NDP DB empowers users to identify potential risk factors and correlations that are crucial for early diagnosis and preventative strategies. Our secondary goal is to use the project to advance our knowledge in generating, organizing, and displaying meaningful connections in biological information.
+                <br><br>
+                Ultimately, NDD DB aims to foster a more informed public, facilitate scientific collaboration, and stimulate innovation in disease management and therapeutic approaches. This initiative reflects our commitment to advancing neurodegenerative disease research and highlights the potential of data-driven solutions in addressing some of the most challenging health issues facing our society today.
+            </p>
+        </div>
+        <div class="section member">Jay Annadurai</div>
+        <div class="section member">Noah Hamilton</div>
+        <div class="section member">Ellie Cates</div>
+    </div>
 {% endblock %}

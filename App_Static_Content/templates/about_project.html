@@ -1,35 +1,76 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block page_title %} About Project {% endblock %}
+{% block page_title %}About Project{% endblock %}
 
 {% block page_style %}
-
     <style>
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 2fr; /* Two columns with the second column twice the width of the first */
+            grid-template-rows: repeat(4, auto); /* Four rows, each auto height */
+            gap: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 0px;
+        }
 
+        .section {
+            background-color: rgba(20, 20, 20, 0.8); /* Translucent black */
+            border-radius: 10px;
+            padding: 1em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--small-font-size);
+            color: var(--c--text);
+        }
+
+        .title {
+            font-size: 1.5em;
+            text-align: center;
+            color: var(--c--emphasis);
+            font-weight: bold;
+        }
+
+        .content {
+            text-align: justify;
+            font-size: 1em;
+            line-height: 1.5;
+        }
+
+        img#logo {
+            border-radius: 10px;
+            max-width: 100%;
+            max-height: 200px;
+            margin: 1em 0;
+        }
+
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
     </style>
-
 {% endblock %}
 
 {% block page_content %}
+    <div class="center">
+        <img id="logo" src="{% static 'images/logo.png' %}" alt="About Project Art">
+    </div>
 
-<!-- Main Content for the About Project Page -->
-<section class="about-project">
-    <h1>About The Neurodegenerative Disorder Pathology Database</h1>
-        <h2> What is the Problem?</h2>
-            <ul>
-                <li> Neurodegenerative disorders are complex diseases with an interlinking of multiple environmental and genetic risk factors which subsequently complicates risk communication and early intervention efforts.</li>
-                <li>The dynamism of risk factors necessitates a comprehensive database that can track risk factors contributing to neurodegenerative disease pathology.</li>
-            </ul>    
-        <h2>What Gaps does the NDPD Fill?</h2>
-            <ul>
-                <li>Addresses the challenge of limited accessibility for users without experience in the medical or scientific field.</li>
-                <li>Acts as a bridge between the advancing literature of neurodegenerative diseases and those wishing to investigate their risk for neurodegenerative diseases.</li>
-            </ul>
-        <h2>Our Goal</h2>
-            <p>Provide an accessible and user-friendly database that comprehensively connects multiclass risk factors for neurodegenerative disorders with current information.</p>
-</section>
+    <div class="container">
+        <div class="section title">NDD DB</div>
+        <div class="section title">Advantages</div>
 
+        <div class="section title">Multiclass Linkages</div>
+        <div class="section content">NDD DB collects and spans information from academic articles for environmental factors linked to diseases and also links diseases with SNP information for genes, providing a holistic view of neurodegenerative disorder mechanisms across several diseases.</div>
+
+        <div class="section title">Accessibility</div>
+        <div class="section content">NDD DB features a simple user interface designed to facilitate quick and robust searches across three main factors (disease, genetic, and environmental). The system is geared towards delivering information in a readable and easily interpretable format.</div>
+
+        <div class="section title">Scalability</div>
+        <div class="section content">NDD DB's data architecture and data acquisition methods are both streamlined and provide flexibility for future expansion. Multitudes of diseases and their linked genetic and environmental factors may be imported via manual curation or by data scraping models.</div>
+    </div>
 {% endblock %}
-
-
-

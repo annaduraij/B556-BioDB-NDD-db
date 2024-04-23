@@ -1,0 +1,268 @@
+/* Author: Jay Annadurai  */
+/* Date: 21 Apri 2024 */
+/* Project: Pathology DB */
+/* File: global.css */
+/* Desc: Contains CSS global to all pages */
+
+/* Variable to Set Div Border Shadow Width */
+:root {
+    /*Grid Spacing */
+    --grid-space: 0.1em;
+
+    /* Page Font */
+    --body-font-family: Montserrat, sans-serif;
+    --body-font-size: 1em;
+    --small-font-size: 0.8em;
+}
+
+/* ---General-Classes--- */
+.button {
+    cursor: pointer;
+    width: fit-content;
+    /* Animation */
+    transition-property: transform, color;
+    transition-duration: 200ms;
+    /* Stops Selecting/Highlighting Text when Double-Clicking a Button */
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
+}
+.button:hover {
+    color: var(--c--emphasis) !important;
+    transform: scale(1.03);
+}
+.button:active{
+    /* color: var(--c--emphasis); */
+    transform: scale(0.97);
+}
+.spacer {
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    font-size: 1.1em;
+    color: var(--c--subtle) !important;
+}
+
+/* ---General-Grid--- */
+.grid-container {
+    display: grid;
+    gap: var(--grid-space);
+    padding: var(--grid-space);
+}
+
+/* ---General-Flex--- */
+.flex {
+    display: flex;
+}
+.flex.row {
+    flex-flow: row wrap;
+}
+.flex.col {
+    flex-flow: column nowrap;
+}
+.flex.center {
+    justify-content: center;
+    align-items: center;
+}
+
+/* ---General--Page-Body-- */
+body {
+
+    background-color: var(--c--primary--background-blur);
+    background-size: 50%;
+    background-repeat: repeat;
+    background-blend-mode: multiply;
+}
+#wrapper, body {
+    width: 100%;
+    height: 100%;
+
+    font-family: var(--body-font-family);
+    font-size: var(--body-font-size);
+}
+body * {
+    color: var(--c--text);
+}
+
+
+/* ---Header--- */
+#header {
+    padding: 0;
+    background-color: var(--c--secondary);
+}
+#header div{
+    color: var(--c--text)
+}
+#header > div{
+    color: var(--c--text);
+    padding: 3px 2vw;
+}
+
+
+/* ---Header---Primary---Nav-Bar--- */
+#header--primary {
+    grid-template-columns: 45% 10% 45%;
+    background-color: var(--c--secondary);
+}
+
+#header--primary #site-title {
+    padding-left: calc(0.5em + 0.5vh);
+    justify-content: flex-start;
+}
+
+#header--primary #nav-bar {
+    /* Adjust the Navbar to be Consistent with the Button */
+    padding-right: calc(0.5em + 0.5vh);
+    justify-content: flex-end;
+}
+
+#logo-container {
+    width: 100%;
+}
+#logo-container:hover  {
+    transform: scale(1.2);
+}
+
+#logo-container > img {
+    display: block;
+    height: 1.7em;
+}
+
+#site-title {
+    text-align: center;
+    font-size: 1.3rem;
+    letter-spacing: 0.1em;
+    padding: 0.8vh 0;
+}
+#nav-bar {
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+
+/*!* ---Header---Secondary---Selection-Bar--- *!*/
+/*#header--secondary {*/
+/*    background-color: var(--c--tertiary);*/
+/*}*/
+/*#selection-bar  {*/
+/*    grid-template-columns: min-content auto max-content min-content;*/
+/*    gap: 0.5em;*/
+/*    text-align: center;*/
+/*}*/
+/*#selection-bar div.button {*/
+/*    !* padding: 0 1vw; *!*/
+/*    margin: 0.5vh !*.2vw*!;*/
+/*}*/
+/*#selection-bar div.button,*/
+/*#selection-bar input,*/
+/*#selection-bar select  {*/
+/*    color: var(--c--text);*/
+/*    background-color: var(--c--secondary);*/
+/*    text-align: center;*/
+
+/*    border: 0 ;*/
+/*    border-radius: 0.5em;*/
+
+/*    padding: 0.25em 0.5em;*/
+/*}*/
+/*#selection-bar #semester-dropdown,*/
+/*#selection-bar #upload-file,*/
+/*#selection-bar #file-search {*/
+/*    font-weight: 500;*/
+/*}*/
+
+/*!* source for rounded out button design https://css-tricks.com/tabs-with-round-out-borders/ *!*/
+
+/*!* ---Body--- *!*/
+/*#page-body {*/
+/*    color: var(--c--text)*/
+/*}*/
+/*#page-body .button--container {*/
+/*    padding: 10px;*/
+/*    justify-content: center;*/
+/*}*/
+
+/*#page-body .button {*/
+/*    padding: 0.6em;*/
+/*    text-align: center;*/
+/*    font-size: 1.2em;*/
+/*    border: none;*/
+
+/*    background-color: var(--c--tertiary);*/
+/*    border-radius: 1em;*/
+/*}*/
+
+/* ---Footer--- */
+#footer {
+    grid-template-columns: auto auto auto;
+
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    z-index: 3;
+
+    padding: 0;
+
+    background-color: var(--c--secondary);
+    /*gap: 5vw;*/
+    /*padding: 10vw;*/
+}
+#footer div {
+    padding: 0.3em 0;
+    font-size: var(--body-font-size);
+}
+#footer a {
+    color: var(--c--text);
+    text-decoration: none;
+    text-align: center;
+}
+/*#footer .button:hover {*/
+/*    transform: scale(1);*/
+/*}*/
+/*#footer .button:active{*/
+/*    transform: scale(0.97);*/
+/*}*/
+/*#footer .flex.row {*/
+/*    justify-content: center;*/
+/*}*/
+/*!*------------------------------------------------------------------------*!*/
+/*!*                               Page-Views                               *!*/
+/*!*------------------------------------------------------------------------*!*/
+
+/*!*-------------------------------------------*!*/
+/*!*                 Home View                 *!*/
+/*!*-------------------------------------------*!*/
+
+/*#page-body--home {*/
+/*    background-color: var(--c--primary--translucent);*/
+/*    margin: 8vw;*/
+/*    border-radius: 1em;*/
+
+/*    grid-template-columns: auto auto auto auto;*/
+/*    gap: 5vw;*/
+/*}*/
+/*#page-body--home div {*/
+/*    padding: 10px;*/
+/*}*/
+
+/*#page-body--home #greeting--message {*/
+/*    line-height: 1.5em !important;*/
+/*}*/
+
+/*#page-body--home .button,*/
+/*#page-body--home #home--semester-dropdown{*/
+/*    padding: 0.6em;*/
+/*    text-align: center;*/
+/*    font-size: 1.2em;*/
+/*    border: none;*/
+
+/*    background-color: var(--c--tertiary);*/
+/*    border-radius: 1em;*/
+/*}*/
+
+/*#page-body--home #home--semester-dropdown option {*/
+/*    letter-spacing: 2em;*/
+/*}*/
+
+
+
